@@ -1,0 +1,12 @@
+# 04 July 2012
+Y <- S :   0.75 /   1.50 #
+S <- Y :   7.90 /   9.80 # Tesco
+# 06 July 2012
+Y <- S :   0.75 /   1.50 # Soy sauce
+# 07 July 2012
+S <- Y :   1.00 /   2.00 # Bikes
+Y <- S :  14.12 /  28.25 # Sainsburry
+Y <- S :    1.49 /  2.98 # McDonalds
+Y <- S :   2.25 /   4.50 # Launderete
+# 08 July 2012
+Y <- S :   2.34 /   4.69 # Jam & butter
