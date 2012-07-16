@@ -1,13 +1,16 @@
 import re
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 import os
 
 app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
-def hello():
-    """This plays the role of the traditional 'index' page."""
-    if request.method != 'POST':
+def index():
+    session.permanent = False
+    if 'login' not in session:
+        return 'You are not <a href="./login">logged in</a>.'
+
+    if request.method == 'GET':
         return render_template('index.html')
     else:
         kogo = request.form['kogo']
@@ -25,7 +28,18 @@ def hello():
             
         stres += getBalance()
         return stres
-   
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    if request.form['user'] == 'zreli' and request.form['pass'] == 'shtuki':
+        session['login'] = 'yes'
+        return '<a href="..">ok</a>'
+
+    return 'wrong user/pass'
+
 def addEntry(kogo, koi, kolko, total, kade):
     text = kogo + " <- " + koi + " : " + kolko + " / " + total + " # " + kade + "\n"
     f = open("money.txt", "a")
@@ -62,5 +76,8 @@ def getBalance():
             toPrint += "Chisti smetki, dobri priqteli ;-). Demek, smetkite sa chisti"
     return toPrint
 
+
+
+app.secret_key = '09jgm20   3oijmp(OJ@)ORJ!)P@(RJ!@P{)j)(@JJR()(@#%&R*oagj;alsfg,jl;agsk;agkmlakbnms.,xmcznb.,zx,ncb;awdljgfma'
 if __name__ == "__main__":
     app.run()
