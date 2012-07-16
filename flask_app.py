@@ -6,7 +6,10 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def hello():
-    if request.method == 'POST':
+    """This plays the role of the traditional 'index' page."""
+    if request.method != 'POST':
+        return render_template('index.html')
+    else:
         kogo = request.form['kogo']
         koi = request.form['koi']
         kolko = request.form['kolko']
@@ -15,20 +18,21 @@ def hello():
         
         stres = ''
         if kogo != '' and koi != '' and kolko != '' and total != '' and kade != '':
-            text = kogo + " <- " + koi + " : " + kolko + " / " + total + " # " + kade + "\n"
-            f = open("money.txt", "a")
-            f.write(text)
-            f.close()
+            addEntry(kogo, koi, kolko, total, kade)
             stres += 'Zapisat e dobaven<br />'
         else:
             stres += 'Nqma dobaven zapis<br />'
             
-        stres += balance()
+        stres += getBalance()
         return stres
-    else:
-        return render_template('index.html')
    
-def balance():
+def addEntry(kogo, koi, kolko, total, kade):
+    text = kogo + " <- " + koi + " : " + kolko + " / " + total + " # " + kade + "\n"
+    f = open("money.txt", "a")
+    f.write(text)
+    f.close()
+
+def getBalance():
     f = open("money.txt", 'r')
     yordan = 0.0
     stanislav = 0.0
